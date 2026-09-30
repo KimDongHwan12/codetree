@@ -1,41 +1,35 @@
-import java.io.*;
 import java.util.*;
+
 public class Main {
-    public static void main(String[] args) throws Exception {
-        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
 
-        int N = Integer.parseInt(br.readLine());
+        int n = sc.nextInt();
 
-        StringTokenizer st = new StringTokenizer(br.readLine());
+        int[] arr = new int[n];
 
-        long[] A = new long[N + 1];
-        long total = 0;
-
-        for (int i = 1; i <= N; i++) {
-            A[i] = Long.parseLong(st.nextToken());
-            total += A[i];
+        for (int i = 0; i < n; i++) {
+            arr[i] = sc.nextInt();
         }
 
-        // 가중 중앙값 위치 찾기
-        long prefix = 0;
-        int meeting = 1;
+        long min = Long.MAX_VALUE;
 
-        for (int i = 1; i <= N; i++) {
-            prefix += A[i];
+        // i = 사람들이 모일 집
+        for (int i = 0; i < n; i++) {
 
-            if (prefix * 2 >= total) {
-                meeting = i;
-                break;
+            long sum = 0;
+
+            // j = 사람들이 출발하는 집
+            for (int j = 0; j < n; j++) {
+
+                int distance = Math.abs(i - j);
+
+                sum += (long) arr[j] * distance;
             }
+
+            min = Math.min(min, sum);
         }
 
-        // 최소 이동 거리 계산
-        long answer = 0;
-
-        for (int i = 1; i <= N; i++) {
-            answer += A[i] * Math.abs((long) i - meeting);
-        }
-
-        System.out.println(answer);
+        System.out.println(min);
     }
 }
