@@ -1,51 +1,36 @@
-import java.util.Scanner;
+import java.util.*;
 
 public class Main {
-
     public static void main(String[] args) {
-
         Scanner sc = new Scanner(System.in);
-
-        int N = sc.nextInt();
-
-        int[][] point = new int[N][2];
-
-        for (int i = 0; i < N; i++) {
-            point[i][0] = sc.nextInt();
-            point[i][1] = sc.nextInt();
+        
+        int n = sc.nextInt();
+        
+        int[] x = new int[n];
+        int[] y = new int[n];
+        
+        for (int i = 0; i < n; i++) {
+            x[i] = sc.nextInt();
+            y[i] = sc.nextInt();
         }
-
-        int total = 0;
-
-        // 원래 전체 이동 거리
-        for (int i = 0; i < N - 1; i++) {
-            total += distance(point[i], point[i + 1]);
+        
+        int min = Integer.MAX_VALUE;
+        //건너뛸 위치
+        for (int i = 1; i < n-1; i++) {
+             int curr = 0;
+             int distance = 0;
+            //건너뛴 곳을 빼고 계산
+            for(int j = 1; j<n; j++) {
+                if(i == j) {
+                    continue;
+                }
+                distance += Math.abs(x[curr] - x[j]) + Math.abs(y[curr] - y[j]);
+                curr = j;
+                
+            }
+            min = Math.min(distance, min);
         }
-
-        int maxSave = 0;
-
-        // 1번과 N번은 건너뛸 수 없으므로
-        // 배열 기준 1 ~ N-2
-        for (int i = 1; i < N - 1; i++) {
-
-            int before =
-                    distance(point[i - 1], point[i])
-                  + distance(point[i], point[i + 1]);
-
-            int after =
-                    distance(point[i - 1], point[i + 1]);
-
-            int save = before - after;
-
-            maxSave = Math.max(maxSave, save);
-        }
-
-        System.out.println(total - maxSave);
-    }
-
-    static int distance(int[] a, int[] b) {
-
-        return Math.abs(a[0] - b[0])
-             + Math.abs(a[1] - b[1]);
+        System.out.println(min);
+        
     }
 }
