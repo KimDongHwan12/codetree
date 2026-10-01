@@ -1,71 +1,65 @@
 import java.util.*;
-
+/**
+ * 입력받을 것
+ * n, m char 2차원 배열
+ * 
+ * 구해야하는것
+ * LEE가 2차원 배열에서 8방향에서 몇번 나오는가?
+ * 
+ */
 public class Main {
-
+    
+    static int[] dr = {-1,1,0,0,-1,-1,1,1};
+    static int[] dc = {0,0,-1,1,-1,1,-1,1};
+    
     public static void main(String[] args) {
-
         Scanner sc = new Scanner(System.in);
-
-        int N = sc.nextInt();
-        int M = sc.nextInt();
-
-        char[][] board = new char[N][M];
-
-        // 입력
-        for (int r = 0; r < N; r++) {
+        
+        int n = sc.nextInt();
+        int m = sc.nextInt();
+        
+        char[][] arr = new char[n][m];
+        
+        for(int i = 0; i < n; i++) {
 
             String str = sc.next();
 
-            for (int c = 0; c < M; c++) {
-                board[r][c] = str.charAt(c);
+            for(int j = 0; j < m; j++) {
+                arr[i][j] = str.charAt(j);
             }
         }
-
-        // 8방향
-        // 위, 아래, 왼쪽, 오른쪽,
-        // 왼쪽 위, 오른쪽 위, 왼쪽 아래, 오른쪽 아래
-        int[] dr = {-1, 1, 0, 0, -1, -1, 1, 1};
-        int[] dc = {0, 0, -1, 1, -1, 1, -1, 1};
-
-        int result = 0;
-
-        // 모든 칸을 시작점으로 확인
-        for (int r = 0; r < N; r++) {
-
-            for (int c = 0; c < M; c++) {
-
-                // 시작 문자가 L이 아니면 볼 필요 없음
-                if (board[r][c] != 'L') {
-                    continue;
-                }
-
-                // L이라면 8방향 확인
-                for (int d = 0; d < 8; d++) {
-
-                    // L에서 1칸 이동
-                    int nr1 = r + dr[d];
-                    int nc1 = c + dc[d];
-
-                    // L에서 2칸 이동
-                    int nr2 = r + dr[d] * 2;
-                    int nc2 = c + dc[d] * 2;
-
-                    // 두 번째 E 위치가 배열 밖이면 검사 불가능
-                    if (nr2 < 0 || nr2 >= N ||
-                        nc2 < 0 || nc2 >= M) {
-                        continue;
-                    }
-
-                    // L → E → E 인지 확인
-                    if (board[nr1][nc1] == 'E'
-                            && board[nr2][nc2] == 'E') {
-
-                        result++;
+        
+        
+        int answer = 0;
+        
+        //탐색 시작 위치
+        for(int i = 0; i <n ; i++) {
+            for(int j = 0; j <m ; j++) {
+                //현재 위치가 L이라면
+                if(arr[i][j] == 'L') {
+                    //8방향 탐색
+                    for(int d = 0; d<8 ; d++) {
+                        int count = 0;
+                        //EE찾기
+                        for(int k = 1; k<=2; k++) {
+                            
+                            int nr = i+dr[d]*k;
+                            int nc = j+dc[d]*k;
+                            
+                            if(nr<0|| nr>=n || nc<0|| nc>=m) break;
+                            
+                            if(arr[nr][nc] != 'E') {
+                                break;
+                            }
+                            count++;
+                        }
+                        if(count == 2) {
+                            answer++;
+                        }
                     }
                 }
             }
         }
-
-        System.out.println(result);
+        System.out.println(answer);
     }
 }
