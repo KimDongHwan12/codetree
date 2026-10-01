@@ -10,47 +10,44 @@ public class Main {
 
         int[] arr = new int[n];
 
-        for (int i = 0; i < n; i++) {
+        for(int i = 0; i < n; i++) {
             arr[i] = sc.nextInt();
         }
 
-        int result = 0;
+        int count = 0;
 
-        // i = 구간의 시작
-        for (int i = 0; i < n; i++) {
+        // i = 구간 시작점
+        for(int i = 0; i < n; i++) {
 
-            // j = 구간의 끝
-            for (int j = i; j < n; j++) {
+            // j = 구간 끝점
+            for(int j = i; j < n; j++) {
 
                 int sum = 0;
 
-                // i ~ j까지 합
-                for (int k = i; k <= j; k++) {
+                // 현재 구간 [i ~ j]의 합
+                for(int k = i; k <= j; k++) {
                     sum += arr[k];
                 }
 
-                // 구간 길이
                 int length = j - i + 1;
 
-                // 평균이 정수가 아니면
-                // 정수 원소와 같을 수 없음
-                if (sum % length != 0) {
-                    continue;
-                }
+                // 현재 구간 [i ~ j] 안에서
+                // 평균과 같은 원소가 있는지 확인
+                for(int k = i; k <= j; k++) {
 
-                int avg = sum / length;
+                    // 평균 == arr[k]
+                    // sum / length == arr[k]
+                    // 정수 나눗셈 문제를 피하기 위해 곱셈으로 비교
+                    if(sum == arr[k] * length) {
+                        count++;
 
-                // 평균과 같은 원소가 구간 안에 있는지 확인
-                for (int k = i; k <= j; k++) {
-
-                    if (arr[k] == avg) {
-                        result++;
+                        // 이 구간은 이미 조건을 만족했으므로 종료
                         break;
                     }
                 }
             }
         }
 
-        System.out.println(result);
+        System.out.println(count);
     }
 }
