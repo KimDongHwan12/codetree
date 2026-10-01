@@ -2,84 +2,91 @@ import java.util.*;
 
 public class Main {
 
+    static int[] dr = {-1, 1, 0, 0, -1, -1, 1, 1};
+    static int[] dc = {0, 0, -1, 1, -1, 1, -1, 1};
+
     public static void main(String[] args) {
 
         Scanner sc = new Scanner(System.in);
 
-        int[][] board = new int[19][19];
+        int[][] arr = new int[19][19];
 
-        // 입력
-        for (int r = 0; r < 19; r++) {
-            for (int c = 0; c < 19; c++) {
-                board[r][c] = sc.nextInt();
+        for(int i = 0; i < 19; i++) {
+            for(int j = 0; j < 19; j++) {
+                arr[i][j] = sc.nextInt();
             }
         }
 
-        // 오른쪽, 아래, 오른쪽 아래, 왼쪽 아래
-        int[] dr = {0, 1, 1, 1};
-        int[] dc = {1, 0, 1, -1};
+        int x = 0;
+        int y = 0;
+        int winner = 0;
 
-        // 모든 칸을 시작점으로 확인
-        for (int r = 0; r < 19; r++) {
+        for(int i = 0; i < 19; i++) {
+            for(int j = 0; j < 19; j++) {
 
-            for (int c = 0; c < 19; c++) {
-
-                // 빈칸이면 검사할 필요 없음
-                if (board[r][c] == 0) {
+                // 돌이 없는 곳은 볼 필요 없음
+                if(arr[i][j] == 0) {
                     continue;
                 }
 
-                // 현재 돌의 색
-                int color = board[r][c];
+                // 현재 돌에서 8방향 탐색
+                for(int d = 0; d < 8; d++) {
 
-                // 4가지 방향 확인
-                for (int d = 0; d < 4; d++) {
+                    // 현재 위치의 돌을 포함하기 때문에 1
+                    int count = 1;
 
-                    boolean win = true;
+                    // 현재 돌을 제외하고 앞으로 4개 확인
+                    for(int k = 1; k <= 4; k++) {
 
-                    // 현재 위치부터 5칸 확인
-                    for (int k = 0; k < 5; k++) {
+                        int nr = i + dr[d] * k;
+                        int nc = j + dc[d] * k;
 
-                        int nr = r + dr[d] * k;
-                        int nc = c + dc[d] * k;
-
-                        // 범위를 벗어나면 실패
-                        if (nr < 0 || nr >= 19 ||
-                            nc < 0 || nc >= 19) {
-
-                            win = false;
+                        // 범위를 벗어나면 이 방향은 실패
+                        if(nr < 0 || nr >= 19 ||
+                           nc < 0 || nc >= 19) {
                             break;
                         }
 
-                        // 다른 색의 돌이면 실패
-                        if (board[nr][nc] != color) {
-
-                            win = false;
+                        // 같은 색 돌이 아니라면 실패
+                        if(arr[nr][nc] != arr[i][j]) {
                             break;
                         }
+
+                        count++;
                     }
 
-                    // 5개가 모두 같은 색이라면 승리
-                    if (win) {
+                    // 5개 연속 발견
+                    if(count == 5) {
 
-                        // 5개 중 가운데는 시작점에서 2칸 이동
-                        int middleR = r + dr[d] * 2;
-                        int middleC = c + dc[d] * 2;
+                        winner = arr[i][j];
 
-                        System.out.println(color);
+                        // 5개의 가운데 돌은 시작점에서 2칸 이동
+                        x = i + dr[d] * 2;
+                        y = j + dc[d] * 2;
 
-                        // 배열은 0부터지만 문제 좌표는 1부터
-                        System.out.println(
-                            (middleR + 1) + " " + (middleC + 1)
-                        );
-
-                        return;
+                        break;
                     }
                 }
+
+                if(winner != 0) {
+                    break;
+                }
+            }
+
+            if(winner != 0) {
+                break;
             }
         }
 
-        // 승자가 없는 경우
-        System.out.println(0);
+        // 승부가 나지 않은 경우
+        if(winner == 0) {
+            System.out.println(0);
+        }
+
+        // 승부가 난 경우
+        else {
+            System.out.println(winner);
+            System.out.println((x + 1) + " " + (y + 1));
+        }
     }
 }
