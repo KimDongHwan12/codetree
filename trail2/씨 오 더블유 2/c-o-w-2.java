@@ -1,42 +1,24 @@
-/*
- * 구해야하는것
- * c,o,w가 순서대로 나오는 경우의 수
- * 
- * 입력받을 것
- * n과 n길이의 문자열
- * 
- * 선택할것
- * c를 찾을 범위
- * o를 찾을 범위
- * w를 찾을 범위
- */
-
 import java.util.*;
+
 public class Main {
-    public static void main(String[] args) throws Exception {
+    public static void main(String[] args) {
         Scanner sc = new Scanner(System.in);
         
         int n = sc.nextInt();
         String str = sc.next();
-        char[] arr = new char[n];
+        char[] chr = str.toCharArray();
         
-        for(int i = 0; i<n  ;i++) {
-            arr[i] = str.charAt(i);
-        }
-        int result = 0;
-        //c찾기
-        for(int i = 0; i<n-2; i++ ) {
-            //o찾기
+        int count = 0;
+        
+        for(int i = 0; i<n-2; i++) {
             for(int j = i+1; j<n-1; j++) {
-                //w찾기
-                for(int k = j+1; k<n; k++) {
-                    
-                    if(arr[i] == 'C' &&arr[j]=='O' && arr[k]=='W') {
-                        result++;
+                for(int k = j+1; k<n ; k++) {
+                    if(chr[i] == 'C' && chr[j] == 'O' && chr[k] == 'W') {
+                        count++;
                     }
                 }
             }
         }
-        System.out.println(result);
+        System.out.println(count);
     }
 }
