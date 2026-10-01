@@ -1,59 +1,48 @@
-import java.util.*;
+import java.util.Arrays;
+import java.util.Scanner;
 
 public class Main {
-
     public static void main(String[] args) {
-
         Scanner sc = new Scanner(System.in);
-
-        int N = sc.nextInt();
-        int M = sc.nextInt();
-
-        int[] A = new int[N];
-
-        for (int i = 0; i < N; i++) {
-            A[i] = sc.nextInt();
+        
+        int n = sc.nextInt();
+        int m = sc.nextInt();
+        
+        int[] arr1 = new int[n];
+        int[] arr2 = new int[m];
+        int[] temp = new int[m];
+        
+        for (int i = 0; i < n; i++) {
+            arr1[i] = sc.nextInt();
         }
-
-        int[] B = new int[M];
-
-        // B의 각 숫자가 몇 개 있는지 저장
-        int[] countB = new int[101];
-
-        for (int i = 0; i < M; i++) {
-            B[i] = sc.nextInt();
-            countB[B[i]]++;
+        
+        
+        for (int i = 0; i < m; i++) {
+            arr2[i] = sc.nextInt();
         }
-
-        int result = 0;
-
-        // 길이 M짜리 연속 부분수열의 시작 위치
-        for (int i = 0; i <= N - M; i++) {
-
-            int[] countA = new int[101];
-
-            // A[i]부터 M개 숫자의 개수를 센다.
-            for (int j = 0; j < M; j++) {
-
-                countA[A[i + j]]++;
-            }
-
+        
+        Arrays.sort(arr2);
+        
+        int answer = 0;
+        
+        for (int i = 0; i <= n-m; i++) {
             boolean same = true;
-
-            // 각 숫자의 개수가 B와 같은지 확인
-            for (int num = 1; num <= 100; num++) {
-
-                if (countA[num] != countB[num]) {
+            for (int j = 0; j < m; j++) {
+                temp[j] = arr1[j+i];
+            }
+            
+            Arrays.sort(temp);
+            
+            for (int j = 0; j < m; j++) {
+                if(temp[j]!=arr2[j]) {
                     same = false;
-                    break;
                 }
             }
-
-            if (same) {
-                result++;
+            if(same) {
+                answer++;
             }
         }
-
-        System.out.println(result);
+        System.out.println(answer);
+        
     }
 }
