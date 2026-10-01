@@ -6,40 +6,40 @@ public class Main {
 
         Scanner sc = new Scanner(System.in);
 
-        int N = sc.nextInt();
-        int K = sc.nextInt();
+        int n = sc.nextInt();
+        int k = sc.nextInt();
 
-        // 위치는 최대 10000
-        // start + K까지 접근할 수 있으므로 넉넉하게 생성
-        int[] placed = new int[20001];
+        // 좌표 10000도 사용해야 하므로 10001칸
+        int[] location = new int[10001];
 
-        for (int i = 0; i < N; i++) {
+        for(int i = 0; i < n; i++) {
 
             int x = sc.nextInt();
-            char type = sc.next().charAt(0);
+            char pos = sc.next().charAt(0);
 
-            if (type == 'G') {
-                placed[x] = 1;
-            } else {
-                placed[x] = 2;
+            if(pos == 'G') {
+                location[x] = 1;
+            }
+            else {
+                location[x] = 2;
             }
         }
 
-        int maxScore = 0;
+        int max = 0;
 
-        // 사진 시작 위치
-        for (int start = 1; start <= 10000; start++) {
+        // i + k가 10000까지 가능
+        for(int i = 0; i <= 10000 - k; i++) {
 
-            int score = 0;
+            int sum = 0;
 
-            // [start, start + K]
-            for (int pos = start; pos <= start + K; pos++) {
-                score += placed[pos];
+            // i부터 i+k까지 확인
+            for(int j = 0; j <= k; j++) {
+                sum += location[i + j];
             }
 
-            maxScore = Math.max(maxScore, score);
+            max = Math.max(max, sum);
         }
 
-        System.out.println(maxScore);
+        System.out.println(max);
     }
 }
