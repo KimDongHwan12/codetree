@@ -1,63 +1,43 @@
 import java.util.*;
-
+/**
+ * 
+ */
 public class Main {
-
-    public static void main(String[] args) throws Exception {
-
+    public static void main(String[] args) {
         Scanner sc = new Scanner(System.in);
-
+        
         int n = sc.nextInt();
-
+        
         int[] arr = new int[n];
-
-        for (int i = 0; i < n; i++) {
+        
+        for(int i = 0; i<n ; i++) {
             arr[i] = sc.nextInt();
         }
-
-        int result = -1;
-
-        // 서로 다른 3개의 수 선택
-        for (int i = 0; i < n - 2; i++) {
-
-            for (int j = i + 1; j < n - 1; j++) {
-
-                for (int k = j + 1; k < n; k++) {
-
-                    // carry가 발생하지 않는다면
-                    if (checkCarry(arr[i], arr[j], arr[k])) {
-
-                        int sum = arr[i] + arr[j] + arr[k];
-
-                        result = Math.max(result, sum);
+        
+        int max = -1;
+        
+        for(int i = 0; i<n-2 ; i++) {
+            for(int j = i+1; j<n-1 ; j++) {
+                for(int k = j+1; k<n ; k++) {
+                    
+                    if(arr[i] % 10 + arr[j] % 10 + arr[k] % 10 >= 10) {
+                        continue;
                     }
+                    if(arr[i] % 100 / 10 + arr[j] % 100 /10 + arr[k] % 100 /10 >= 10) {
+                        continue;
+                    }
+                    if(arr[i] % 1000 / 100+ arr[j] % 1000 / 100 + arr[k] % 1000 / 100 >= 10) {
+                        continue;
+                    }
+                    if(arr[i] % 10000 /1000 + arr[j] % 10000 / 1000 + arr[k] % 10000 / 1000 >= 10) {
+                        continue;
+                    }
+                    
+                    int sum = arr[i] + arr[j] + arr[k];
+                    max = Math.max(max, sum);
                 }
             }
         }
-
-        System.out.println(result);
-    }
-
-    // 세 숫자를 더했을 때 carry가 발생하지 않는지 확인
-    static boolean checkCarry(int a, int b, int c) {
-
-        while (a > 0 || b > 0 || c > 0) {
-
-            // 현재 자리 숫자
-            int digitA = a % 10;
-            int digitB = b % 10;
-            int digitC = c % 10;
-
-            // 현재 자리의 합이 10 이상이면 carry 발생
-            if (digitA + digitB + digitC >= 10) {
-                return false;
-            }
-
-            // 다음 자리로 이동
-            a /= 10;
-            b /= 10;
-            c /= 10;
-        }
-
-        return true;
+        System.out.println(max);
     }
 }
